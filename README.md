@@ -14,6 +14,24 @@ The goal is to identify robust neuroimaging biomarkers for ASD and improve diagn
 This study has taken the Diffusion tensor imaging data from the six sites of ABIDE-II database (https://fcon_1000.projects.nitrc.org/indi/abide/) and were pre-processed using a standard pipeline. This dataset includes total 283 subjects 154 ASD and 129 TD. Then, brain White matter (WM) was parcellated into 50 WM regions using the Johns Hopkins University WM atlas, and region wise (tracts) diffusion metrics fractional anisotropy (FA), mean diffusivity (MD), axial diffusivity (AD) and radial diffusivity (RD) were extracted. These metrics were concatenated into regional feature vectors to compute inter-regional correlation matrices using the Pearson correlation coefficient, Spearman rank correlation coefficient, and biweight midcorrelation coefficient. The correlation matrices were sparsified using hard and complementary thresholding, from which graph networks were generated and nine graph-theoretical features were extracted for each brain regions. So total 450 (50*9) features per subject. Finally, machine learning models such as LR, SVM, RF, XGBoost, and 1D-CNN were applied for automated ASD classification. 
 
 
+**Correlation Methods:**
+
+**Pearson Correlation & Graph Feature Extraction**
+
+This script computes subject-wise inter-regional connectivity matrices using the Pearson correlation coefficient from DTI-derived features. The correlation matrices are thresholded to construct brain networks, which are then used to extract multiple graph-theoretical node metrics (e.g., centrality, clustering, strength). Finally, all features are reshaped into subject-level vectors for downstream machine learning analysis.
+
+
+**Spearman Correlation & Graph Feature Extraction**
+
+This script computes subject-wise connectivity matrices using the Spearman rank correlation to capture monotonic relationships between brain regions. The matrices are thresholded to construct brain networks, followed by extraction of multiple graph-theoretical node metrics. The features are then reshaped into subject-level vectors for subsequent machine learning analysis.
+
+**Biweight Midcorrelation & Graph Feature Extraction**
+
+This script computes robust inter-regional connectivity matrices using biweight midcorrelation, reducing the influence of outliers in DTI features. The matrices are thresholded to construct brain networks, followed by extraction of multiple graph-theoretical node metrics. The resulting features are reshaped into subject-level vectors for machine learning-based ASD classification.
+
+**Machine learning Models:**
+
+
 **Logistic Regression (LR)**
 
 This implementation of Logistic Regression is integrated within a nested cross-validation (CV) framework to ensure robust and unbiased performance evaluation. Prior to classification, features are normalized using MinMax scaling. Feature selection is performed using Random Forest-based Recursive Feature Elimination with Cross-Validation (RFECV), and the top-N ranked features (varying from 5 to 450) are evaluated.
